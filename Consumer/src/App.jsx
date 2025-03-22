@@ -9,6 +9,7 @@ import OrderCatalog from "./Pages/MyOrders/OrderCatalog";
 import ConsumerOrders from "./Pages/MyOrders/ConsumerOrders";
 import DetailProduct from "./Pages/Products/DetailProduct";
 import Cart from "./Pages/Cart/Cart";
+import CheckoutSuccess from "./Pages/CheckoutSuccess";
 
 
 function App() {
@@ -34,6 +35,8 @@ function App() {
           <Route path="/shop/kisan/detail" element={<KisanDetail />} />
 
           <Route path="/shop/cart" element={<Cart />} />
+
+          <Route path="/checkout-success" element={<CheckoutSuccess />} />
 
 
         </Routes>
