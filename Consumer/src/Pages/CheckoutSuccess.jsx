@@ -19,7 +19,7 @@ const CheckoutSuccess = () => {
             }
         
             try {
-                const response = await axios.post("http://localhost:4009/order/confirm", { sessionId });
+                const response = await axios.post("https://agriauthenic-poc-backend.onrender.com/order/confirm", { sessionId });
         
                 console.log("Server response:", response.data); // Debugging Step 2
         
