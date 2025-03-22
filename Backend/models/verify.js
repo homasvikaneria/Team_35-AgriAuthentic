@@ -8,7 +8,7 @@ const verifySchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product"
     },
-    productCertificate: { type: Array },
+    productCertificate: { type: String },
     otherDetails: { type: String }
 });
 
