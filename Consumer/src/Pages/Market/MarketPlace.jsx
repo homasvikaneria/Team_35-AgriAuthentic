@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { ScaleLoader } from "react-spinners"
 import axios from 'axios'
-import { MarketCard } from 'd:/Hackathons/AgriAuthenic-Poc/Consumer-Poc/Frontend/src/Pages/Marketplace/MarketCard';
+import { MarketCard } from './MarketCard';
 import NavbarMarket from '../Header/NavbarMarket';
+import toast, { Toaster } from 'react-hot-toast';
+
 const categories = [
     { id: 1, name: "All Fruits & Vegetables", imgLink: "https://cdn.grofers.com/app/images/category/cms_images/rc-upload-1719920085745-3" },
     { id: 2, name: "Fresh Fruits", imgLink: "https://cdn.grofers.com/app/images/category/cms_images/rc-upload-1702734004998-8" },
@@ -42,6 +44,12 @@ const MarketPlace = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [filteredProducts, setFilteredProducts] = useState([]);
 
+    const notify = () => toast.success('Added to Cart',{
+        duration: 1000,
+        position: 'bottom-right',
+        className: 'bg-green-200',
+    });
+
 
     const fetchProducts = async () => {
         try {
@@ -76,11 +84,14 @@ const MarketPlace = () => {
         }
     }, [selectedCategory, getAllProducts]);
 
-    
+
 
 
     return (
         <>
+
+            <button onClick={notify}>Make me a toast</button>
+            <Toaster />
             <NavbarMarket />
             <div className="flex justify-center container mt-5 mb-5 mx-auto"
             >

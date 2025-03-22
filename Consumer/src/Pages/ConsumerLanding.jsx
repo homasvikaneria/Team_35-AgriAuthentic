@@ -36,9 +36,9 @@ const ConsumerLanding = () => {
 
     const limitedProducts = [
         {
-            "_id": {
-                "$oid": "67db19cbd5c82072684fdf3a"
-            },
+            "_id":
+                "67db19cbd5c82072684fdf3a",
+
             "productName": "Peas",
             "productDescription": "Among include shake bad him.",
             "productPrice": 182,
@@ -52,9 +52,9 @@ const ConsumerLanding = () => {
             "__v": 0
         },
         {
-            "_id": {
-                "$oid": "67db19cbd5c82072684fdf3b"
-            },
+            "_id":
+                "67db19cbd5c82072684fdf3b",
+
             "productName": "Cucumber",
             "productDescription": "Act become character read.",
             "productPrice": 252,
@@ -68,9 +68,9 @@ const ConsumerLanding = () => {
             "__v": 0
         },
         {
-            "_id": {
-                "$oid": "67db19cbd5c82072684fdf3c"
-            },
+            "_id":
+                "67db19cbd5c82072684fdf3c",
+
             "productName": "Cauliflower",
             "productDescription": "Billion large son her goal.",
             "productPrice": 421,
@@ -84,9 +84,9 @@ const ConsumerLanding = () => {
             "__v": 0
         },
         {
-            "_id": {
-                "$oid": "67db19cbd5c82072684fdf3d"
-            },
+            "_id":
+                "67db19cbd5c82072684fdf3d",
+
             "productName": "Banana",
             "productDescription": "Large imagine rich sound during its about.",
             "productPrice": 96,
@@ -100,9 +100,9 @@ const ConsumerLanding = () => {
             "__v": 0
         },
         {
-            "_id": {
-                "$oid": "67db19cbd5c82072684fdf3e"
-            },
+            "_id":
+                "67db19cbd5c82072684fdf3e",
+
             "productName": "Vatana",
             "productDescription": "Yard stand responsibility start serve.",
             "productPrice": 298,
@@ -116,9 +116,9 @@ const ConsumerLanding = () => {
             "__v": 0
         },
         {
-            "_id": {
-                "$oid": "67db19cbd5c82072684fdf42"
-            },
+            "_id":
+                "67db19cbd5c82072684fdf42",
+
             "productName": "Potato",
             "productDescription": "Opportunity whatever generation.",
             "productPrice": 348,
@@ -132,9 +132,9 @@ const ConsumerLanding = () => {
             "__v": 0
         },
         {
-            "_id": {
-                "$oid": "67db19cbd5c82072684fdf43"
-            },
+            "_id":
+                "67db19cbd5c82072684fdf43",
+
             "productName": "Beetroot",
             "productDescription": "Station degree yes center assume.",
             "productPrice": 72,
@@ -224,16 +224,26 @@ const ConsumerLanding = () => {
                     <h1 className='mt-12 font-semibold text-xl pl-19'>All Fruits & Vegetables</h1>
 
                     <div className='flex gap-8 justify-center mt-5'>
-                        <img src="https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_fresh-vegetables_480_250923.jpg?tr=w-480,q-80" alt="" width={250} className='hover:shadow-lg transition-shadow rounded-b-lg' />
+                        <Link to="/shop/market">
+                            <img src="https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_fresh-vegetables_480_250923.jpg?tr=w-480,q-80" alt="" width={250} className='hover:shadow-lg transition-shadow rounded-b-lg' />
+                        </Link>
 
-                        <img src="https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_fresh-fruits_480_250923.jpg?tr=w-480,q-80" alt="" width={250} className='hover:shadow-lg transition-shadow rounded-b-lg' />
+                        <Link to="/shop/market">
+                            <img src="https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_fresh-fruits_480_250923.jpg?tr=w-480,q-80" alt="" width={250} className='hover:shadow-lg transition-shadow rounded-b-lg' />
+                        </Link>
 
-                        <img src="https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_cuts-&-exotics_480_250923.jpg?tr=w-480,q-80" alt="" width={250} className='hover:shadow-lg transition-shadow rounded-b-lg' />
+                        <Link to="/shop/market">
+                            <img src="https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_cuts-&-exotics_480_250923.jpg?tr=w-480,q-80" alt="" width={250} className='hover:shadow-lg transition-shadow rounded-b-lg' />
+                        </Link>
 
-                        <img src="https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_herbs-&-seasoning_480_250923.jpg?tr=w-480,q-80" alt="" width={250} className='hover:shadow-lg transition-shadow rounded-b-lg'
-                        />
+                        <Link to="/shop/market">
+                            <img src="https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_herbs-&-seasoning_480_250923.jpg?tr=w-480,q-80" alt="" width={250} className='hover:shadow-lg transition-shadow rounded-b-lg'
+                            />
+                        </Link>
 
-                        <img src="https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_fresh-vegetables_480_250923.jpg?tr=w-480,q-80" alt="" width={250} className='hover:shadow-lg transition-shadow rounded-b-lg' />
+                        <Link to="/shop/market">
+                            <img src="https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_fresh-vegetables_480_250923.jpg?tr=w-480,q-80" alt="" width={250} className='hover:shadow-lg transition-shadow rounded-b-lg' />
+                        </Link>
                     </div>
 
 
