@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Package, ShoppingBag, Upload, X } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
+import axios from 'axios';
 
 function Products_Layout() {
   const [showModal, setShowModal] = useState(false);
@@ -8,7 +9,7 @@ function Products_Layout() {
     productName: '',
     productDescription: '',
     productPrice: '',
-    stock: '',
+    stock: 0,
     harvestLocation: '',
     harvestDate: '',
     tags: '',
@@ -27,17 +28,25 @@ function Products_Layout() {
       productName: '',
       productDescription: '',
       productPrice: '',
-      stock: '',
+      stock: 0  ,
       harvestLocation: '',
-      harvestDate: '',
+      harvestDate: new Date(),
       tags: '',
       imageLink: '',
     });
   };
 
+
+  const upload_product = async () => {
+    const response = await axios.post('http://localhost:4009/product',formData)
+
+    console.log("Data :",response)
+
+  }
+
   return (
-    <div>
-      <div className="flex items-center justify-between mx-5">
+    <div className='bg-green-50 h-[90vh]'>
+      <div className="flex items-center justify-between mx-5 pt-5">
         <nav className="bg-gray-100 h-13 w-62 flex justify-center items-center mx-2 space-x-4 p-4 rounded-md shadow-md">
           <NavLink
             to="/products/Crops"
@@ -169,6 +178,7 @@ function Products_Layout() {
               <button
                 type="submit"
                 className="w-full bg-green-600 text-white py-2 rounded-md font-medium transition-all duration-300 hover:bg-green-700"
+                onClick={upload_product}
               >
                 Submit
               </button>

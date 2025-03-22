@@ -96,61 +96,102 @@ const CertificationProgressBar = ({ certification, certificationPercent }) => {
   );
 };
 
-const CertificationDetails = ({ reason }) => (
-  <div className="bg-white shadow-lg rounded-xl overflow-hidden h-full border-l-4 border-green-500">
-    <div className="p-6">
-      <h3 className="text-lg font-semibold text-green-700 mb-4 flex items-center">
-        <span className="text-2xl mr-2">📜</span>
-        Certification Details
-      </h3>
-      <div className="p-4 bg-green-50 rounded-lg mb-3">
-        <p className="text-gray-700">{reason}</p>
-      </div>
-      <div className="flex items-center p-3 bg-amber-50 rounded-lg border-l-4 border-amber-400">
-        <span className="text-xl mr-2">ℹ️</span>
-        <p className="text-sm text-amber-700">Based on organic farming standards and sustainable agricultural practices.</p>
-      </div>
-    </div>
-  </div>
-);
+const CertificationDetails = ({ reason, suggestions }) => {
+  const [showPopup, setShowPopup] = useState(false);
 
-const AIRecommendations = ({ suggestions }) => (
-  <div className="bg-white shadow-lg rounded-xl overflow-hidden border-l-4 border-green-500">
-    <div className="p-6">
-      <div className="flex items-center mb-6">
-        <div className="bg-green-100 p-2 rounded-full mr-3">
-          <span className="text-2xl">💡</span>
+  return (
+    <div className="bg-white shadow-lg rounded-xl overflow-hidden h-full border-l-4 border-green-500 relative">
+      <div className="p-6">
+        <h3 className="text-lg font-semibold text-green-700 mb-4 flex items-center">
+          <span className="text-2xl mr-2">📜</span>
+          Certification Details
+        </h3>
+        <div className="p-4 bg-green-50 rounded-lg mb-3">
+          <p className="text-gray-700">{reason}</p>
         </div>
-        <h2 className="text-xl font-semibold text-green-700">Smart Farm Assistant</h2>
+        <div className="flex items-center p-3 bg-amber-50 rounded-lg border-l-4 border-amber-400">
+          <span className="text-xl mr-2">ℹ️</span>
+          <p className="text-sm text-amber-700">Based on organic farming standards and sustainable agricultural practices.</p>
+        </div>
+        
+        {/* Help button for AI suggestions */}
+        <div className="flex justify-end mt-4">
+          <button 
+            onClick={() => setShowPopup(true)}
+            className="flex items-center justify-center w-8 h-8 bg-green-100 text-green-700 rounded-full hover:bg-green-200 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            title="View AI Recommendations"
+          >
+            <span className="text-xl">?</span>
+          </button>
+        </div>
       </div>
-      {suggestions.length > 0 ? (
-        <div className="space-y-3">
-          {suggestions.map((suggestion, index) => (
-            <div key={index} className="flex items-start p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors duration-200 border-l-4 border-green-400">
-              <div className="mr-3 mt-1 bg-green-500 text-white h-5 w-5 rounded-full flex items-center justify-center text-xs font-bold">
-                {index + 1}
-              </div>
-              <div>
-                <p className="text-gray-700">{suggestion}</p>
-                <div className="mt-2 flex justify-end">
-                  <button className="text-xs text-green-600 hover:underline flex items-center">
-                    Mark as done <span className="ml-1">✓</span>
-                  </button>
+
+      {/* AI Recommendations Popup */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full max-h-screen overflow-auto m-4 border-l-4 border-green-500 animate-fade-in">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center">
+                  <div className="bg-green-100 p-2 rounded-full mr-3">
+                    <span className="text-2xl">💡</span>
+                  </div>
+                  <h2 className="text-xl font-semibold text-green-700">Smart Farm Assistant</h2>
                 </div>
+                <button 
+                  onClick={() => setShowPopup(false)}
+                  className="text-gray-500 hover:text-gray-700 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              {suggestions.length > 0 ? (
+                <div className="space-y-3">
+                  {suggestions.map((suggestion, index) => (
+                    <div key={index} className="flex items-start p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors duration-200 border-l-4 border-green-400">
+                      <div className="mr-3 mt-1 bg-green-500 text-white h-5 w-5 rounded-full flex items-center justify-center text-xs font-bold">
+                        {index + 1}
+                      </div>
+                      <div>
+                        <p className="text-gray-700">{suggestion}</p>
+                        <div className="mt-2 flex justify-end">
+                          <button className="text-xs text-green-600 hover:underline flex items-center">
+                            Mark as done <span className="ml-1">✓</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-green-50 p-6 rounded-lg text-center border border-green-100">
+                  <span className="text-4xl mb-3 block">✅</span>
+                  <p className="text-lg font-medium text-green-700">All systems optimal!</p>
+                  <p className="text-sm text-green-600 mt-2">Your farm is performing excellently.</p>
+                </div>
+              )}
+              
+              <div className="mt-6 flex justify-end">
+                <button 
+                  onClick={() => setShowPopup(false)}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  Close
+                </button>
               </div>
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="bg-green-50 p-6 rounded-lg text-center border border-green-100">
-          <span className="text-4xl mb-3 block">✅</span>
-          <p className="text-lg font-medium text-green-700">All systems optimal!</p>
-          <p className="text-sm text-green-600 mt-2">Your farm is performing excellently.</p>
+          </div>
         </div>
       )}
     </div>
-  </div>
-);
+  );
+};
+
+// The original AIRecommendations component is no longer needed as a standalone component
+// since we've integrated it into the popup in CertificationDetails
 
 const TimelineGraph = () => {
   const [timelineView, setTimelineView] = useState("weekly");
@@ -428,7 +469,7 @@ const Dashboard = () => {
             <CertificationProgressBar certification={certification} certificationPercent={certificationPercent} />
           </div>
           <div className="lg:col-span-1">
-            <CertificationDetails reason={reason} />  
+            <CertificationDetails reason={reason} suggestions={suggestions} />  
           </div>
         </div>
 
@@ -446,11 +487,8 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <TimelineGraph />
-          </div>
-          <div className="lg:col-span-1">
-            <AIRecommendations suggestions={suggestions} />
           </div>
         </div>
 

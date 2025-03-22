@@ -15,6 +15,7 @@ import FarmingNews from './Pages/FarmerMarketplace/FarmingNews'
 import MarketPrices from './Pages/FarmerMarketplace/MarketPrices'
 import HomePage from './Pages/HomePage'
 import FarmerProfileSetup from './Components/ProfileSetup'
+import FarmingNewsDashboard from './Pages/FarmerMarketplace/FarmingNews'
 
 function App() {
 
@@ -36,7 +37,7 @@ function App() {
               <Route index element={<Navigate to="farmers" replace />} />
               <Route path='farmers' element={<FarmerDetails />} />
               <Route path='market' element={<MarketPrices />} />
-              <Route path='news' element={<FarmingNews />} />
+              <Route path='news' element={<FarmingNewsDashboard />} />
             </Route>
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/profile" element={<Profile />} />
