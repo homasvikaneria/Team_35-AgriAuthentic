@@ -55,7 +55,7 @@ export const createOrderFromBasket = async (req, res) => {
             description: product.description,
             images: [product.imageURL],
           },
-        },
+        },        
         quantity: basketItem.quantity,
       });
     }
