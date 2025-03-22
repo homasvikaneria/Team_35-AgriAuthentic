@@ -6,15 +6,15 @@ function Navbar() {
     return (
         <>
             <div className=' flex items-center justify-between mx-2'>
-                <div className=" flex items-center">
-                    <Leaf color="#2ba829" size={28} />
-                    <h1 className=' text-green-600  font-semibold text-2xl text-center items-center flex'>
+                <div className=" flex items-center gap-1">
+                    <Leaf color="#2ba829" size={22} />
+                    <h1 className=' text-green-600  font-bold text-2xl text-center items-center flex pb-1.5'>
                         AgriAuthentic
                     </h1>
                 </div>
-                <div className="p-4 flex space-x-6">
+                <div className="p-4 flex items-center space-x-6">
                     <NavLink
-                        to="/"
+                        to="/dashboard"
                         className={({ isActive }) =>
                             `px-4 py-2 rounded-lg transition ${isActive ? "text-green-700 font-semibold" : "text-black font-semibold hover:text-gray-600"
                             }`
