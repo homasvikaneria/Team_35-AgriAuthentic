@@ -12,6 +12,7 @@ import { Webhook } from 'svix';
 import bodyParser from 'body-parser';
 import { Consumer } from './models/Consumer.js';
 import Stripe from 'stripe';
+import 'dotenv/config.js'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -26,7 +27,7 @@ const PORT = process.env.PORT || 4000;
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      dbName: "AgriAuthentic" // Connect to the 'hackathon' database
+      dbName: "AgriAuthentic" 
     });
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
@@ -37,7 +38,6 @@ const connectDB = async () => {
 connectDB();
 
 
-// #region Weebhook Consumer
 
 app.post('/webhook/consumer', express.raw({ type: 'application/json' }), async (req, res) => {
   try {
