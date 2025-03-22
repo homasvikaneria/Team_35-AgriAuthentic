@@ -15,6 +15,7 @@ import Stripe from 'stripe';
 import 'dotenv/config.js'
 import  marketRoutes from './Routes/marketRoutes.js'
 import cron from "node-cron";
+import newsRoutes from './Routes/newsRoutes.js'; 
 
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -98,6 +99,7 @@ app.use(express.json())
 
 // Add Router here
 
+app.use('/api/news', newsRoutes);
 app.use('/api/market', marketRoutes);
 app.use("/product", productRouter)
 app.use("/order", orderRouter)

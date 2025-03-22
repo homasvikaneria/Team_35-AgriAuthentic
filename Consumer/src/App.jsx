@@ -1,3 +1,4 @@
+// Team_35-AgriAuthentic/Consumer/src/App.jsx
 import BusinessLanding from "./Pages/BusinessLanding";
 import ConsumerLanding from "./Pages/ConsumerLanding";
 import KisanConnect from "./Pages/KisanConnect/KisanConnect";
@@ -10,6 +11,7 @@ import ConsumerOrders from "./Pages/MyOrders/ConsumerOrders";
 import DetailProduct from "./Pages/Products/DetailProduct";
 import Cart from "./Pages/Cart/Cart";
 import CheckoutSuccess from "./Pages/CheckoutSuccess";
+import VerificationHome from "./components/Verification/VerificationHome";
 
 
 function App() {
@@ -38,6 +40,10 @@ function App() {
           <Route path="/shop/cart" element={<Cart />} />
 
           <Route path="/checkout-success" element={<CheckoutSuccess />} />
+          
+          <Route path="/shop/verify/details" element={<VerificationHome />} />
+
+          
 
 
         </Routes>
