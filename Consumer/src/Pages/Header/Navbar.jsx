@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Leaf } from 'lucide-react';
 import { ShoppingCart } from 'lucide-react';
 import { Search } from 'lucide-react';
@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 
 
 const Navbar = () => {
+
+
     return (
         <>
 
@@ -19,19 +21,19 @@ const Navbar = () => {
                     </div>
                 </Link>
 
-                <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
-                        <Search size={20} />
+                <Link to="/s">
+                    <div className="relative">
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                            <Search size={20} />
+                        </div>
+                        <input
+                            type="search"
+                            className="w-full p-2.5 pl-10 pr-50 text-sm bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
+                            placeholder="Search for products, brands, and more..."
+                            required
+                        />
                     </div>
-                    <input
-                        type="search"
-                        className="w-full p-2.5 pl-10 pr-50 text-sm bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
-                        placeholder="Search for products, brands, and more..."
-                        // value={query}
-                        // onChange={(e) => setQuery(e.target.value)}
-                        required
-                    />
-                </div>
+                </Link>
 
                 <div className="flex gap-5 mx-3">
                     <Link to="/shop/cart">

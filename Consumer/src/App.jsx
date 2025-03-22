@@ -12,6 +12,7 @@ import DetailProduct from "./Pages/Products/DetailProduct";
 import Cart from "./Pages/Cart/Cart";
 import CheckoutSuccess from "./Pages/CheckoutSuccess";
 import VerificationHome from "./components/Verification/VerificationHome";
+import SearchBar from "./Pages/Header/SearchBar";
 
 
 function App() {
@@ -40,10 +41,14 @@ function App() {
           <Route path="/shop/cart" element={<Cart />} />
 
           <Route path="/checkout-success" element={<CheckoutSuccess />} />
-          
+
           <Route path="/shop/verify/details" element={<VerificationHome />} />
 
-          
+
+
+          <Route path="/s" element={<SearchBar />} />
+
+
 
 
         </Routes>
