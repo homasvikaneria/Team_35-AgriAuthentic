@@ -29,7 +29,7 @@ const Cart = () => {
 
     const postOrder = async () => {
         try {
-            const response = await axios.post("http://localhost:4009/order", {
+            const response = await axios.post("https://agriauthenic-poc-backend.onrender.com/order", {
                 consumerId: '64b50c9e1c9d440000a1b2c2',
             });
 
