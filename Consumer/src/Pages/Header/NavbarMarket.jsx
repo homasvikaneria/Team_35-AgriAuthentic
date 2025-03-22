@@ -44,8 +44,8 @@ const NavbarMarket = () => {
                                     <button
                                         key={index}
                                         className={`flex items-center space-x-1 pb-1 border-b-3 ${activeCategory === category.label
-                                            ? 'border-purple-600 text-purple-600 font-bold'
-                                            : 'border-transparent text-gray-600 hover:text-purple-600'
+                                            ? 'border-green-600 text-green-600 font-bold'
+                                            : 'border-transparent text-gray-600 hover:text-green-600'
                                             } whitespace-nowrap transition-colors duration-200`}
                                         onClick={() => setActiveCategory(category.label)}
                                     >
@@ -54,7 +54,7 @@ const NavbarMarket = () => {
                                             alt=""
                                             width={30}
                                             className={`${activeCategory === category.label
-                                                ? 'filter-purple-600' // Add a CSS class for active icon
+                                                ? 'filter-green-600' // Add a CSS class for active icon
                                                 : 'filter-gray-600' // Add a CSS class for inactive icon
                                                 }`}
                                         />
@@ -68,7 +68,11 @@ const NavbarMarket = () => {
 
                 <div className="flex gap-5 mx-3">
                     <Link to="/shop/cart">
-                        <div>
+                        <div onClick={() => setActiveCategory("cart")}
+                            className={`${activeCategory === "cart"
+                                ? 'filter-green-600' // Add a CSS class for active icon
+                                : 'filter-gray-600' // Add a CSS class for inactive icon
+                                }`} >
                             <ShoppingCart />
                         </div>
                     </Link>

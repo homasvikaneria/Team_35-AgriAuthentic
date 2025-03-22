@@ -3,12 +3,12 @@ import Banner1 from '../assets/AgriAuthBanner1.jpg'
 import box2 from '../assets/box2.png'
 import box3 from '../assets/box3.png'
 import topratedFarmers from '../assets/topratedFarmers.jpg'
-import Farmer1 from '../assets/Farmer1.png'
-import Farmer2 from '../assets/Farmer2.png'
-import Farmer3 from '../assets/Farmer3.png'
-import Farmer4 from '../assets/Farmer4.png'
-import Farmer5 from '../assets/Farmer5.png'
-import Farmer6 from '../assets/Farmer6.png'
+import Farmer1 from '../assets/farmerDetail.jpg'
+import Farmer2 from '../assets/farmerDetail.jpg'
+import Farmer3 from '../assets/farmerDetail.jpg'
+import Farmer4 from '../assets/farmerDetail.jpg'
+import Farmer5 from '../assets/farmerDetail.jpg'
+import Farmer6 from '../assets/farmerDetail.jpg'
 import { Link } from 'react-router-dom';
 import { MarketCard } from './Market/MarketCard'
 import Navbar from './Header/Navbar'
@@ -251,13 +251,13 @@ const ConsumerLanding = () => {
 
                     <div className='bg-[#f5ffea6e] p-3 mt-5 rounded-2xl' id='farmer'>
                         <img src={topratedFarmers} alt="" className='rounded-3xl m-auto mt-5' />
-                        <div className='grid grid-cols-3 justify-items-center gap-2 w-2xl mx-auto mt-6'>
-                            <img src={Farmer1} alt="" width={240} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
-                            <img src={Farmer2} alt="" width={240} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
-                            <img src={Farmer3} alt="" width={240} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
-                            <img src={Farmer4} alt="" width={240} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
-                            <img src={Farmer5} alt="" width={240} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
-                            <img src={Farmer6} alt="" width={240} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
+                        <div className='grid grid-cols-3 justify-items-center gap-2 mx-auto mt-6 w-fit'>
+                            <img src={Farmer1} alt="" width={320} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
+                            <img src={Farmer2} alt="" width={320} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
+                            <img src={Farmer3} alt="" width={320} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
+                            <img src={Farmer4} alt="" width={320} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
+                            <img src={Farmer5} alt="" width={320} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
+                            <img src={Farmer6} alt="" width={320} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
                         </div>
                     </div>
 
