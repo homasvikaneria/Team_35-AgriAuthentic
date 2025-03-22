@@ -1,9 +1,12 @@
 import React from 'react';
 import { QrCode } from 'lucide-react';
+import NavbarMarket from '../Pages/Header/NavbarMarket';
 
 export default function ProductVerification() {
   return (
-    <div className="max-w-2xl mx-auto">
+    <>
+    <NavbarMarket/>
+    <div className="max-w-2xl mx-auto mt-15">
       <div className="bg-white rounded-lg border p-6">
         <h2 className="text-xl font-semibold">Product Verification</h2>
         <p className="text-gray-600 mt-1">Scan QR code or NFC tag to verify product authenticity</p>
@@ -22,5 +25,6 @@ export default function ProductVerification() {
         </button>
       </div>
     </div>
+    </>
   );
 }

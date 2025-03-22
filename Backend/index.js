@@ -12,6 +12,10 @@ import { Webhook } from 'svix';
 import bodyParser from 'body-parser';
 import { Consumer } from './models/Consumer.js';
 import Stripe from 'stripe';
+import 'dotenv/config.js'
+import  marketRoutes from './Routes/marketRoutes.js'
+import cron from "node-cron";
+
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -26,7 +30,7 @@ const PORT = process.env.PORT || 4000;
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      dbName: "AgriAuthentic" // Connect to the 'hackathon' database
+      dbName: "AgriAuthentic" 
     });
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
@@ -37,7 +41,6 @@ const connectDB = async () => {
 connectDB();
 
 
-// #region Weebhook Consumer
 
 app.post('/webhook/consumer', express.raw({ type: 'application/json' }), async (req, res) => {
   try {
@@ -95,12 +98,19 @@ app.use(express.json())
 
 // Add Router here
 
+app.use('/api/market', marketRoutes);
 app.use("/product", productRouter)
 app.use("/order", orderRouter)
 app.use("/consumer", consumerRouter)
 app.use("/basket", basketRouter)
 app.use('/farmer', farmerRouter);
 app.use('/verify', verifyRouter);
+
+// ✅ Schedule auto-updates (every 6 hours)
+cron.schedule("0 */6 * * *", async () => {
+    console.log("🔄 Fetching and updating market price data...");
+    await updateMarketPrices();
+});
 
 
 app.listen(PORT, () => {

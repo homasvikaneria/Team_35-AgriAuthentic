@@ -15,7 +15,7 @@ const NavbarBusiness = () => {
                 <Link to="/">
                     <div className='flex gap-2 items-center p-4 cursor-pointer scale-110'>
                         <Leaf color='#00C951' />
-                        <h1 className='text-2xl font-bold text-green-500' >AgriAuthentic</h1>
+                        <h1 className='text-4xl font-bold text-green-500' >AgriAuthentic</h1>
                     </div>
                 </Link>
 
