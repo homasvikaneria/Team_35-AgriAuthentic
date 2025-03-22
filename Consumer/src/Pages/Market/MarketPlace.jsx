@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
-
+import { ScaleLoader } from "react-spinners"
+import axios from 'axios'
+import { MarketCard } from 'd:/Hackathons/AgriAuthenic-Poc/Consumer-Poc/Frontend/src/Pages/Marketplace/MarketCard';
 const categories = [
     { id: 1, name: "All Fruits & Vegetables", imgLink: "https://cdn.grofers.com/app/images/category/cms_images/rc-upload-1719920085745-3" },
     { id: 2, name: "Fresh Fruits", imgLink: "https://cdn.grofers.com/app/images/category/cms_images/rc-upload-1702734004998-8" },
@@ -34,23 +36,65 @@ const categoryFilters = {
 
 const MarketPlace = () => {
 
-    const [selectedCategory, setSelectedCategory] = useState("All Fruits & Vegetables")
+    const [selectedCategory, setSelectedCategory] = useState(1)
+
+    const [getAllProducts, setGetAllProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [filteredProducts, setFilteredProducts] = useState([]);
 
 
-    const onCategoryClick = (itemName) => {
-        setSelectedCategory(itemName)
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get("https://agriauthenic-poc-backend.onrender.com/product");
+            if (response.data.success) {
+                setFilteredProducts(response.data.data);
+                setGetAllProducts(response.data.data);
+            }
+        } catch (err) {
+            console.log(err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+
+    useEffect(() => {
+        fetchProducts()
+    }, [])
+
+    useEffect(() => {
+        if (selectedCategory === 1) {
+            // Show all products when "All Fruits & Vegetables" is selected
+            setFilteredProducts(getAllProducts);
+        } else {
+            // Filter products based on the selected category
+            const filterCategory = categoryFilters[selectedCategory];
+            const results = getAllProducts?.filter((item) =>
+                item?.tags?.includes(filterCategory)
+            );
+            setFilteredProducts(results);
+        }
+    }, [selectedCategory, getAllProducts]);
+
+
+
+    if (isLoading) {
+        return <div className="text-center py-80">
+            <ScaleLoader color="#00C951" />
+        </div>;
     }
 
 
     return (
         <>
-            <div className="flex justify-center mt-7">
+            <div className="flex justify-center mt-7"
+            >
                 <div className='w-[15%]'>
                     {
                         categories.map((item) => (
                             <div
-                                onClick={() => onCategoryClick(item.name)}
-                                className={`flex items-center bg-gray-50 hover:bg-green-100 p-3 h-fit cursor-pointer ${selectedCategory === item.name ? "border-l-4 border-green-500" : ""}`}>
+                                onClick={() => setSelectedCategory(item.id)}
+                                className={`flex items-center bg-gray-50 hover:bg-green-100 p-3 h-fit cursor-pointer ${selectedCategory === item.id ? "border-l-4 border-green-500" : ""}`}>
                                 <div className='rounded-full overflow-hidden bg-gray-50 h-[50px]'>
                                     <img src={item.imgLink} alt="" width={50} className='hover:scale-110 duration-300' />
                                 </div>
@@ -61,7 +105,17 @@ const MarketPlace = () => {
                 </div>
 
                 <div className='bg-gray-100 w-[70%] h-[887px]'>
-                    <h1 className='font-bold p-3'>{selectedCategory}</h1>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 p-3 bg-gray-100 h-[900px] overflow-y-auto hide-scrollbar w-full cursor-pointer scroll-hdn">
+                        {!filteredProducts?.length ? (<div className="text-center py-10">No products found.</div>)
+                            : (
+
+                                filteredProducts?.map((item) => (
+                                    <MarketCard key={item._id} data={item} />
+                                ))
+
+                            )
+                        }
+                    </div>
                 </div>
 
             </div>
