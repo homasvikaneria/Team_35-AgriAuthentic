@@ -15,6 +15,7 @@ function App() {
           <Route path="/" element={<BusinessLanding />} />
           <Route path="/market" element={<ConsumerLanding />} />
           <Route path="/shop/market" element={<Market />} />
+          <Route path="/shop/product/:" element={<Market />} />
           <Route path="/shop/kisan" element={<KisanDetail />} />
         </Routes>
       </Router>

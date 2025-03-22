@@ -2,7 +2,7 @@ import React from 'react'
 import Banner1 from '../assets/AgriAuthBanner1.jpg'
 import box2 from '../assets/box2.png'
 import box3 from '../assets/box3.png'
-import FarmerBanner from '../assets/FarmerBanner.jpg'
+import topratedFarmers from '../assets/topratedFarmers.jpg'
 import Farmer1 from '../assets/Farmer1.png'
 import Farmer2 from '../assets/Farmer2.png'
 import Farmer3 from '../assets/Farmer3.png'
@@ -241,7 +241,7 @@ const ConsumerLanding = () => {
                 </div>
 
                 <div className='bg-[#f5ffea6e] p-3 mt-5 rounded-2xl' id='farmer'>
-                    <img src={FarmerBanner} alt="" className='rounded-3xl m-auto mt-5' />
+                    <img src={topratedFarmers} alt="" className='rounded-3xl m-auto mt-5' />
                     <div className='grid grid-cols-3 justify-items-center gap-2 w-2xl mx-auto mt-6'>
                         <img src={Farmer1} alt="" width={240} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
                         <img src={Farmer2} alt="" width={240} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />

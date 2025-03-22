@@ -1,11 +1,11 @@
 import React from 'react';
 import { Star, Truck, Shield, Award, ChevronLeft } from 'lucide-react';
-import { useCartStore } from '../store/cartStore';
+
 import { Link } from 'react-router-dom';
 import Farmer1 from '../../public/Farmer1.png'
 
 export default function ProductDetail({ product, onBack }) {
-  const addItem = useCartStore((state) => state.addItem);
+
   return (
     <div className="max-w-4xl mx-auto mt-10">
       <Link to="/shop2/market">
