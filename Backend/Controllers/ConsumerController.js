@@ -1,5 +1,5 @@
 import {Consumer} from '../models/Consumer.js';
-import {Order} from '../models/Orders.js';
+import {Order} from '../models/Order.js';
 
 
 export const getConsumerProfile = async (req, res) => {
@@ -30,7 +30,7 @@ export const getConsumerProfile = async (req, res) => {
 export const addAddress = async (req, res) => {
   try {
     const { consumerId, street, city, state, zipCode, country, isDefault } = req.body;
-    
+
     const newAddress = {
       street,
       city,
