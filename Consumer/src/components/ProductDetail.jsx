@@ -2,13 +2,13 @@ import React from 'react';
 import { Star, Truck, Shield, Award, ChevronLeft } from 'lucide-react';
 
 import { Link } from 'react-router-dom';
-import Farmer1 from '../../public/Farmer1.png'
+import Farmer1 from '../assets/Farmer1.png'
 
 export default function ProductDetail({ product, onBack }) {
 
   return (
     <div className="max-w-4xl mx-auto mt-10">
-      <Link to="/shop2/market">
+      <Link to="/shop/market">
         <button
           className="mb-6 flex items-center gap-2 text-gray-600 hover:text-gray-900"
         >

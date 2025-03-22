@@ -6,12 +6,12 @@ import { useParams } from 'react-router-dom'
 
 const DetailProduct = () => {
 
-    const { product_id } = useParams()
+    const { productId } = useParams()
     const [myProduct, setMyProduct] = useState(undefined)
 
     const fetchProduct = async () => {
         try {
-            const response = await axios.get(`http://localhost:4009/product/${product_id}`);
+            const response = await axios.get(`https://agriauthenic-poc-backend.onrender.com/product/${productId}`);
             console.log(response.data.data)
             if (response.data.success) {
                 setMyProduct(response.data.data);

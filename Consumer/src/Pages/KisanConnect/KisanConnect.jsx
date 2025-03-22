@@ -2,12 +2,14 @@ import React from 'react'
 import FarmerBanner from '../../assets/FarmerBanner.jpg'
 import farmerDetail from '../../assets/farmerDetail.jpg'
 import { Link } from "react-router-dom";
+import NavbarMarket from '../Header/NavbarMarket';
 
 
 const KisanConnect = () => {
     return (
         <>
-            <div className='container mx-auto'>
+            <NavbarMarket />
+            <div className='container mx-auto mt-15'>
 
 
                 <div className='flex justify-center'>

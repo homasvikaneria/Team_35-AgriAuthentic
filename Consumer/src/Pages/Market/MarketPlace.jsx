@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ScaleLoader } from "react-spinners"
 import axios from 'axios'
 import { MarketCard } from 'd:/Hackathons/AgriAuthenic-Poc/Consumer-Poc/Frontend/src/Pages/Marketplace/MarketCard';
+import NavbarMarket from '../Header/NavbarMarket';
 const categories = [
     { id: 1, name: "All Fruits & Vegetables", imgLink: "https://cdn.grofers.com/app/images/category/cms_images/rc-upload-1719920085745-3" },
     { id: 2, name: "Fresh Fruits", imgLink: "https://cdn.grofers.com/app/images/category/cms_images/rc-upload-1702734004998-8" },
@@ -37,7 +38,6 @@ const categoryFilters = {
 const MarketPlace = () => {
 
     const [selectedCategory, setSelectedCategory] = useState(1)
-
     const [getAllProducts, setGetAllProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -76,18 +76,13 @@ const MarketPlace = () => {
         }
     }, [selectedCategory, getAllProducts]);
 
-
-
-    if (isLoading) {
-        return <div className="text-center py-80">
-            <ScaleLoader color="#00C951" />
-        </div>;
-    }
+    
 
 
     return (
         <>
-            <div className="flex justify-center mt-7"
+            <NavbarMarket />
+            <div className="flex justify-center container mt-5 mb-5 mx-auto"
             >
                 <div className='w-[15%]'>
                     {
@@ -105,17 +100,25 @@ const MarketPlace = () => {
                 </div>
 
                 <div className='bg-gray-100 w-[70%] h-[887px]'>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 p-3 bg-gray-100 h-[900px] overflow-y-auto hide-scrollbar w-full cursor-pointer scroll-hdn">
-                        {!filteredProducts?.length ? (<div className="text-center py-10">No products found.</div>)
-                            : (
 
-                                filteredProducts?.map((item) => (
-                                    <MarketCard key={item._id} data={item} />
-                                ))
+                    {
+                        isLoading ? (<div className="text-center py-80">
+                            <ScaleLoader color="#00C951" />
+                        </div>) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 p-3 bg-gray-100 h-[900px] overflow-y-auto hide-scrollbar w-full cursor-pointer scroll-hdn">
+                                {!filteredProducts?.length ? (<div className="text-center py-10">No products found.</div>)
+                                    : (
 
-                            )
-                        }
-                    </div>
+                                        filteredProducts?.map((item) => (
+                                            <MarketCard key={item._id} data={item} />
+                                        ))
+
+                                    )
+                                }
+                            </div>
+                        )
+                    }
+
                 </div>
 
             </div>

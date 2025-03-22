@@ -2,8 +2,13 @@ import BusinessLanding from "./Pages/BusinessLanding";
 import ConsumerLanding from "./Pages/ConsumerLanding";
 import KisanConnect from "./Pages/KisanConnect/KisanConnect";
 import KisanDetail from "./Pages/KisanConnect/KisanDetail";
-import Market from "./Pages/Market/Market"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MarketPlace from "./Pages/Market/MarketPlace";
+import ProductVerification from "./components/ProductVerification";
+import OrderCatalog from "./Pages/MyOrders/OrderCatalog";
+import ConsumerOrders from "./Pages/MyOrders/ConsumerOrders";
+import DetailProduct from "./Pages/Products/DetailProduct";
+import Cart from "./Pages/Cart/Cart";
 
 
 function App() {
@@ -12,11 +17,25 @@ function App() {
     <>
       <Router>
         <Routes>
+
+          {/* Landing Pages */}
           <Route path="/" element={<BusinessLanding />} />
           <Route path="/market" element={<ConsumerLanding />} />
-          <Route path="/shop/market" element={<Market />} />
-          <Route path="/shop/product/:" element={<Market />} />
-          <Route path="/shop/kisan" element={<KisanDetail />} />
+
+          <Route path="/shop/market" element={<MarketPlace />} />
+          <Route path="/shop/product/:productId" element={<DetailProduct />} />
+
+          <Route path="/shop/myorders" element={<OrderCatalog />} />
+          <Route path="/shop/myorders/:orderId" element={<ConsumerOrders />} />
+
+          <Route path="/shop/verify" element={<ProductVerification />} />
+          <Route path="/shop/kisan" element={<KisanConnect />} />
+
+          <Route path="/shop/kisan/detail" element={<KisanDetail />} />
+
+          <Route path="/shop/cart" element={<Cart />} />
+
+
         </Routes>
       </Router>
     </>
