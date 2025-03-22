@@ -6,7 +6,7 @@ import {
   // updateBasketItem,
   // removeFromBasket,
   // clearBasket
-} from '../controllers/basketContoller.js';
+} from '../Controllers/BasketController.js';
 
 const router = express.Router();
 
