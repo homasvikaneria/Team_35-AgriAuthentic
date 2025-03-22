@@ -3,6 +3,8 @@ import { Leaf } from 'lucide-react';
 import { ShoppingCart } from 'lucide-react';
 import { Search } from 'lucide-react';
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
+import { Link } from "react-router-dom";
+
 
 const Navbar = () => {
     return (
@@ -10,10 +12,13 @@ const Navbar = () => {
 
             <div className='flex items-center justify-evenly mx-auto pt-2 bg-gradient-to-b from-green-200/50 to-transparent'>
 
-                <div className='flex gap-2 items-center p-4 cursor-pointer'>
-                    <Leaf color='#00C951' />
-                    <h1 className='text-2xl font-bold text-green-500' >AgriAuthentic</h1>
-                </div>
+                <Link to="/">
+                    <div className='flex gap-2 items-center p-4 cursor-pointer'>
+                        <Leaf color='#00C951' />
+                        <h1 className='text-2xl font-bold text-green-500' >AgriAuthentic</h1>
+                    </div>
+                </Link>
+
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
                         <Search size={20} />
