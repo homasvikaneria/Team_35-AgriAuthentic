@@ -3,7 +3,7 @@ import {
   registerFarmer,
   getFarmerById,
   getAllFarmers
-} from '../Controllers/farmerController';
+} from '../Controllers/farmerController.js';
 
 const router = express.Router();
 
