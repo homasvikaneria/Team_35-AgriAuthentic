@@ -33,10 +33,12 @@ const Navbar = () => {
                     />
                 </div>
 
-                <div className="flex gap-3 mx-3">
-                    <div>
-                        <ShoppingCart />
-                    </div>
+                <div className="flex gap-5 mx-3">
+                    <Link to="/shop/cart">
+                        <div>
+                            <ShoppingCart />
+                        </div>
+                    </Link>
                     <header>
                         <SignedOut>
                             <SignInButton />

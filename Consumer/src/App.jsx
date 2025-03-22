@@ -33,6 +33,7 @@ function App() {
           <Route path="/shop/kisan" element={<KisanConnect />} />
 
           <Route path="/shop/kisan/detail" element={<KisanDetail />} />
+          <Route path="/shop/kisan/detail/:kisanID" element={<KisanDetail />} />
 
           <Route path="/shop/cart" element={<Cart />} />
 

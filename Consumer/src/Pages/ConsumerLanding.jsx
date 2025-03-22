@@ -3,12 +3,12 @@ import Banner1 from '../assets/AgriAuthBanner1.jpg'
 import box2 from '../assets/box2.png'
 import box3 from '../assets/box3.png'
 import topratedFarmers from '../assets/topratedFarmers.jpg'
-import Farmer1 from '../assets/farmerDetail.jpg'
-import Farmer2 from '../assets/farmerDetail.jpg'
-import Farmer3 from '../assets/farmerDetail.jpg'
-import Farmer4 from '../assets/farmerDetail.jpg'
-import Farmer5 from '../assets/farmerDetail.jpg'
-import Farmer6 from '../assets/farmerDetail.jpg'
+import farmerDetail1 from '../assets/farmerDetail1.jpg'
+import farmerDetail2 from '../assets/farmerDetail2.jpg'
+import farmerDetail3 from '../assets/farmerDetail3.jpg'
+import farmerDetail4 from '../assets/farmerDetail4.jpg'
+import farmerDetail5 from '../assets/farmerDetail5.jpg'
+import farmerDetail6 from '../assets/farmerDetail6.jpg'
 import { Link } from 'react-router-dom';
 import { MarketCard } from './Market/MarketCard'
 import Navbar from './Header/Navbar'
@@ -151,6 +151,16 @@ const ConsumerLanding = () => {
 
     ]
 
+    const FarmerDetail = [
+        { id: 1, photo: farmerDetail1 },
+        { id: 2, photo: farmerDetail2 },
+        { id: 3, photo: farmerDetail3 },
+        { id: 4, photo: farmerDetail4 },
+        { id: 5, photo: farmerDetail5 },
+        { id: 6, photo: farmerDetail6 }
+    ];
+
+
     return (
 
         <>
@@ -263,12 +273,11 @@ const ConsumerLanding = () => {
                     <div className='bg-[#f5ffea6e] p-3 mt-5 rounded-2xl' id='farmer'>
                         <img src={topratedFarmers} alt="" className='rounded-3xl m-auto mt-5' />
                         <div className='grid grid-cols-3 justify-items-center gap-2 mx-auto mt-6 w-fit'>
-                            <img src={Farmer1} alt="" width={320} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
-                            <img src={Farmer2} alt="" width={320} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
-                            <img src={Farmer3} alt="" width={320} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
-                            <img src={Farmer4} alt="" width={320} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
-                            <img src={Farmer5} alt="" width={320} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
-                            <img src={Farmer6} alt="" width={320} className='hover:shadow-lg rounded-2xl hover:scale-110 transition duration-300 cursor-pointer' />
+                            {FarmerDetail.map((item) => (
+                                <Link to={`/shop/kisan/detail/${item.id}`} key={item.photo}>
+                                    <img src={item.photo} alt="" className='rounded-2xl hover:scale-110 duration-300 hover:shadow-xl cursor-pointer ' />
+                                </Link>
+                            ))}
                         </div>
                     </div>
 

@@ -46,7 +46,6 @@ export const MarketCard = ({ data }) => {
   const handleAddToCart = (id) => {
     console.log(id);
     postToBasket(id);
-
   };
 
 

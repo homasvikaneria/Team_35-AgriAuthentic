@@ -4,6 +4,7 @@ import Navbar from '../Header/Navbar'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 
+
 const DetailProduct = () => {
 
     const { productId } = useParams()
@@ -26,13 +27,16 @@ const DetailProduct = () => {
     useEffect(() => {
         fetchProduct()
     }, [])
+
+
+
     return (
         <>
             <Navbar />
 
             <ProductDetail
                 product={{
-                    id: 3,
+                    id: myProduct?._id,
                     name: myProduct?.productName,
                     farm: myProduct?.harvestLocation,
                     price: Number(myProduct?.productPrice),

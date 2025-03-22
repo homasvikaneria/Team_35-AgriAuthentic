@@ -1,9 +1,22 @@
 import React from 'react'
 import FarmerBanner from '../../assets/FarmerBanner.jpg'
-import farmerDetail from '../../assets/farmerDetail.jpg'
+import farmerDetail1 from '../../assets/farmerDetail1.jpg'
+import farmerDetail2 from '../../assets/farmerDetail2.jpg'
+import farmerDetail3 from '../../assets/farmerDetail3.jpg'
+import farmerDetail4 from '../../assets/farmerDetail4.jpg'
+import farmerDetail5 from '../../assets/farmerDetail5.jpg'
+import farmerDetail6 from '../../assets/farmerDetail6.jpg'
 import { Link } from "react-router-dom";
 import NavbarMarket from '../Header/NavbarMarket';
 
+const FarmerDetail = [
+    { id: 1, photo: farmerDetail1 },
+    { id: 2, photo: farmerDetail2 },
+    { id: 3, photo: farmerDetail3 },
+    { id: 4, photo: farmerDetail4 },
+    { id: 5, photo: farmerDetail5 },
+    { id: 6, photo: farmerDetail6 }
+];
 
 const KisanConnect = () => {
     return (
@@ -11,21 +24,15 @@ const KisanConnect = () => {
             <NavbarMarket />
             <div className='container mx-auto mt-15'>
 
-
                 <div className='flex justify-center'>
                     <img src={FarmerBanner} alt="" className='rounded-2xl' />
                 </div>
                 <div className='flex justify-center gap-3 mt-5 flex-wrap mx-20'>
-                    <Link to="/shop/kisan">
-                        <img src={farmerDetail} alt="" className='rounded-2xl hover:scale-110 duration-300 hover:shadow-xl cursor-pointer ' />
-                    </Link>
-                    <img src={farmerDetail} alt="" className='rounded-2xl hover:scale-110 duration-300 hover:shadow-xl cursor-pointer ' />
-                    <img src={farmerDetail} alt="" className='rounded-2xl hover:scale-110 duration-300 hover:shadow-xl cursor-pointer ' />
-                    <img src={farmerDetail} alt="" className='rounded-2xl hover:scale-110 duration-300 hover:shadow-xl cursor-pointer ' />
-                    <img src={farmerDetail} alt="" className='rounded-2xl hover:scale-110 duration-300 hover:shadow-xl cursor-pointer ' />
-                    <img src={farmerDetail} alt="" className='rounded-2xl hover:scale-110 duration-300 hover:shadow-xl cursor-pointer ' />
-                    <img src={farmerDetail} alt="" className='rounded-2xl hover:scale-110 duration-300 hover:shadow-xl cursor-pointer ' />
-                    <img src={farmerDetail} alt="" className='rounded-2xl hover:scale-110 duration-300 hover:shadow-xl cursor-pointer ' />
+                    {FarmerDetail.map((item) => (
+                        <Link to={`/shop/kisan/detail/${item.id}`} key={item.photo}>
+                            <img src={item.photo} alt="" className='rounded-2xl hover:scale-110 duration-300 hover:shadow-xl cursor-pointer ' />
+                        </Link>
+                    ))}
 
                 </div>
             </div>

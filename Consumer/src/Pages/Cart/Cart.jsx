@@ -1,17 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Header/Navbar';
-import { ChevronLeft } from 'lucide-react'; 
+import { ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ScaleLoader } from "react-spinners"
 import NavbarMarket from '../Header/NavbarMarket';
-
+import toast, { Toaster } from 'react-hot-toast';
 
 const Cart = () => {
     const [userBasket, setUserBasket] = useState([]);
     const [checkoutSuccess, setCheckoutSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
+    const notify = () => toast.success('Removed from Cart', {
+        duration: 1000,
+        position: 'bottom-right',
+        className: 'bg-green-200',
+    });
+
+    const DeleteProduct = async (productID) => {
+        try {
+            const response = await axios.delete(`https://agriauthenic-poc-backend.onrender.com/basket/64b50c9e1c9d440000a1b2c2/basket/${productID}`);
+            if (response.data.success) {
+                setUserBasket(response.data.data);
+                console.log(response.data.data)
+                notify()
+            }
+        } catch (err) {
+            console.log(err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const fetchBasket = async () => {
         try {
@@ -39,7 +59,7 @@ const Cart = () => {
             }
 
             if (response.data.success) {
-            
+
                 window.location.href = response.data.checkoutUrl;
             } else {
                 alert("Failed to initiate payment.");
@@ -53,9 +73,9 @@ const Cart = () => {
 
     useEffect(() => {
         fetchBasket();
-    }, []);
+    }, [setUserBasket]);
 
-    
+
     let totalPrice = userBasket?.reduce((acc, crr) => acc + Math.round(Number(crr.product?.productPrice)), 0);
 
     if (isLoading) {
@@ -65,7 +85,7 @@ const Cart = () => {
     }
 
 
-    
+
     if (userBasket.length === 0 && !checkoutSuccess) {
         return (
             <>
@@ -88,6 +108,7 @@ const Cart = () => {
 
     return (
         <>
+            <Toaster />
             {checkoutSuccess ? (
 
                 <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
@@ -108,7 +129,7 @@ const Cart = () => {
                     </div>
                 </div>
             ) : (
-                
+
                 <div>
                     <Navbar />
                     <div className="w-3xl mx-auto bg-white rounded-lg shadow-md p-6 mt-12">
@@ -123,7 +144,7 @@ const Cart = () => {
                         <h2 className="text-xl font-semibold mb-4">Basket</h2>
                         <p className="text-gray-600 mb-6">1 items in your cart</p>
 
-                       
+
                         {userBasket?.map((item) => (
                             <div className="bg-[#ebffef89] p-3 rounded-2xl m-3" key={item._id}>
                                 <div className="flex items-center justify-between mb-6">
@@ -133,7 +154,8 @@ const Cart = () => {
                                         <div>
                                             <h3 className="font-medium">{item?.product?.productName}</h3>
                                             <p className="text-sm text-gray-500">Green Valley Farm</p>
-                                            
+                                            <h3 className="text-sm">Quantity : {item?.quantity}</h3>
+
                                             <div className="space-y-2 mb-6 mt-2">
                                                 <div className="flex gap-4">
                                                     <span className="text-gray-600">₹{item?.product?.productPrice}</span>
@@ -143,7 +165,9 @@ const Cart = () => {
                                         </div>
 
                                     </div>
-                                    <div className="flex items-center gap-2 bg-red-500 text-white p-2 rounded-xl text-sm font-bold cursor-pointer">
+                                    <div
+                                        onClick={() => DeleteProduct(item?.product?._id)}
+                                        className="flex items-center gap-2 bg-red-500 text-white p-2 rounded-xl text-sm font-bold cursor-pointer">
                                         Remove
                                     </div>
                                 </div>
@@ -152,13 +176,13 @@ const Cart = () => {
                             </div>
                         ))}
 
-                        
+
                         <div className="flex justify-between border-t pt-4">
                             <span className="font-semibold">Total</span>
                             <span className="font-semibold">₹{totalPrice}</span>
                         </div>
 
-                        
+
                         <button
                             className="w-full mt-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
                             onClick={postOrder}
