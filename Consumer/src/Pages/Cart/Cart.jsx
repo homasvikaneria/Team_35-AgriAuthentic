@@ -39,7 +39,7 @@ const Cart = () => {
             }
 
             if (response.data.success) {
-                // Redirect user to Stripe Checkout
+            
                 window.location.href = response.data.checkoutUrl;
             } else {
                 alert("Failed to initiate payment.");
@@ -55,7 +55,7 @@ const Cart = () => {
         fetchBasket();
     }, []);
 
-    // Calculate total price
+    
     let totalPrice = userBasket?.reduce((acc, crr) => acc + Math.round(Number(crr.product?.productPrice)), 0);
 
     if (isLoading) {
@@ -65,7 +65,7 @@ const Cart = () => {
     }
 
 
-    // Render empty cart message if the basket is empty
+    
     if (userBasket.length === 0 && !checkoutSuccess) {
         return (
             <>
@@ -89,7 +89,6 @@ const Cart = () => {
     return (
         <>
             {checkoutSuccess ? (
-                // Order Success Page
 
                 <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
                     <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
@@ -109,7 +108,7 @@ const Cart = () => {
                     </div>
                 </div>
             ) : (
-                // Cart Page
+                
                 <div>
                     <Navbar />
                     <div className="w-3xl mx-auto bg-white rounded-lg shadow-md p-6 mt-12">
@@ -124,7 +123,7 @@ const Cart = () => {
                         <h2 className="text-xl font-semibold mb-4">Basket</h2>
                         <p className="text-gray-600 mb-6">1 items in your cart</p>
 
-                        {/* Cart Items */}
+                       
                         {userBasket?.map((item) => (
                             <div className="bg-[#ebffef89] p-3 rounded-2xl m-3" key={item._id}>
                                 <div className="flex items-center justify-between mb-6">
@@ -134,7 +133,7 @@ const Cart = () => {
                                         <div>
                                             <h3 className="font-medium">{item?.product?.productName}</h3>
                                             <p className="text-sm text-gray-500">Green Valley Farm</p>
-                                            {/* Price Details */}
+                                            
                                             <div className="space-y-2 mb-6 mt-2">
                                                 <div className="flex gap-4">
                                                     <span className="text-gray-600">₹{item?.product?.productPrice}</span>
@@ -153,13 +152,13 @@ const Cart = () => {
                             </div>
                         ))}
 
-                        {/* Total */}
+                        
                         <div className="flex justify-between border-t pt-4">
                             <span className="font-semibold">Total</span>
                             <span className="font-semibold">₹{totalPrice}</span>
                         </div>
 
-                        {/* Checkout Button */}
+                        
                         <button
                             className="w-full mt-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
                             onClick={postOrder}
