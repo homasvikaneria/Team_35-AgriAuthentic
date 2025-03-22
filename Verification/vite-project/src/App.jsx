@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import QrScanner from './Components/QrScanner'
 import ProductVerification from './Components/ProductVerification'
 
+
 function App() {
   
 
