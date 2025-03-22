@@ -89,10 +89,8 @@ const MarketPlace = () => {
 
     return (
         <>
-
-            <button onClick={notify}>Make me a toast</button>
-            <Toaster />
             <NavbarMarket />
+            <Toaster />
             <div className="flex justify-center container mt-5 mb-5 mx-auto"
             >
                 <div className='w-[15%]'>

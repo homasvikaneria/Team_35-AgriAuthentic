@@ -12,6 +12,7 @@ import Farmer6 from '../assets/farmerDetail.jpg'
 import { Link } from 'react-router-dom';
 import { MarketCard } from './Market/MarketCard'
 import Navbar from './Header/Navbar'
+import toast, { Toaster } from 'react-hot-toast';
 
 const ConsumerLanding = () => {
 
@@ -154,7 +155,7 @@ const ConsumerLanding = () => {
 
         <>
             <Navbar />
-
+            <Toaster />
             <div
                 style={{
                     backgroundImage: `url('https://i.ibb.co/yFq8nWk7/light-purple-blurred-backdrop-vector.jpg')`, // Replace with your image URL
