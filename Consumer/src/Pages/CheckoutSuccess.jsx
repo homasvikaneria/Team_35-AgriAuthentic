@@ -11,7 +11,7 @@ const CheckoutSuccess = () => {
 
     useEffect(() => {
         const verifyPayment = async () => {
-            console.log("Session ID from URL:", sessionId); // Debugging Step 1
+            console.log("Session ID from URL:", sessionId); 
             if (!sessionId) {
                 setOrderStatus("failed");
                 setLoading(false);
@@ -20,13 +20,12 @@ const CheckoutSuccess = () => {
         
             try {
                 const response = await axios.post("https://agriauthenic-poc-backend.onrender.com/order/confirm", { sessionId });
-        
-                console.log("Server response:", response.data); // Debugging Step 2
+         
         
                 if (response.data.success) {
                     setOrderStatus("success");
         
-                    // Ensure it stays on success page before redirecting
+                    
                     setTimeout(() => {
                         window.location.href = "/shop2/market";
                     }, 8000);
@@ -36,7 +35,7 @@ const CheckoutSuccess = () => {
             } catch (error) {
                 console.error("Error verifying payment:", error.response?.data || error.message);
         
-                // Check if error is related to session ID not found
+                
                 if (error.response?.status === 400) {
                     console.log("Invalid session ID. Possible expired or duplicate session.");
                 }

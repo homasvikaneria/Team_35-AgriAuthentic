@@ -32,7 +32,6 @@ export const createOrderFromBasket = async (req, res) => {
     for (const basketItem of consumer.basket) {
       const product = await Product.findById(basketItem.product._id);
       if (!product) {
-        // Collect errors instead of sending a response inside the loop
         return res.status(400).json({ 
           success: false, 
           message: `Product ${basketItem.product.productName} no longer available` 
@@ -49,8 +48,8 @@ export const createOrderFromBasket = async (req, res) => {
 
       line_items.push({
         price_data: {
-          currency: 'usd',
-          unit_amount: price * 100, // Convert to cents
+          currency: 'inr',
+          unit_amount: price * 100, 
           product_data: {
             name: product.productName,
             description: product.description,
@@ -61,7 +60,7 @@ export const createOrderFromBasket = async (req, res) => {
       });
     }
 
-    // Create Stripe Checkout Session
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
@@ -72,7 +71,6 @@ export const createOrderFromBasket = async (req, res) => {
       line_items,
     });
 
-    // ✅ Ensure only one response is sent
     return res.status(200).json({
       success: true,
       checkoutUrl: session.url,
@@ -82,7 +80,7 @@ export const createOrderFromBasket = async (req, res) => {
   } catch (error) {
     console.error("Error in createOrderFromBasket:", error);
 
-    // ✅ Check if response headers are already sent before sending an error response
+
     if (!res.headersSent) {
       return res.status(500).json({ success: false, message: 'Order creation failed', error: error.message });
     }
@@ -290,7 +288,7 @@ export const confirmOrder = async (req, res) => {
             return res.status(400).json({ success: false, message: "Session ID is required" });
         }
 
-        // ✅ Get Payment Details from Stripe
+       
         const session = await stripe.checkout.sessions.retrieve(sessionId);
 
         if (!session || session.payment_status !== "paid") {
@@ -298,8 +296,7 @@ export const confirmOrder = async (req, res) => {
         }
 
         const consumerId = session.client_reference_id;
-        
-        // ✅ Fix: Populate `basket.product` to get full product details
+
         const consumer = await Consumer.findById(consumerId).populate("basket.product");
 
         if (!consumer) {
@@ -310,7 +307,7 @@ export const confirmOrder = async (req, res) => {
             return res.status(400).json({ success: false, message: "No products in basket" });
         }
 
-        // ✅ Get default address if none is set
+     
         let defaultAddress = consumer.addresses.find(addr => addr.isDefault);
         if (!defaultAddress) {
             defaultAddress = {
@@ -322,44 +319,44 @@ export const confirmOrder = async (req, res) => {
             };
         }
 
-        // ✅ Fix: Prevent duplicate products by merging quantities
+
         const orderedProductsMap = new Map();
 
         consumer.basket.forEach((basketItem) => {
-            const productId = basketItem.product._id.toString(); // Convert ObjectId to string
+            const productId = basketItem.product._id.toString(); 
 
             if (orderedProductsMap.has(productId)) {
-                // If product already exists, update the quantity
+               
                 orderedProductsMap.get(productId).quantity += basketItem.quantity;
             } else {
-                // Otherwise, add a new entry
+               
                 orderedProductsMap.set(productId, {
-                    item: basketItem.product, // Full product details
+                    item: basketItem.product, 
                     quantity: basketItem.quantity,
                     farmer_id: basketItem.product?.farmer_id || null,
                 });
             }
         });
 
-        // Convert map values to an array
+
         const orderedProducts = Array.from(orderedProductsMap.values());
 
-        // ✅ Save Order in MongoDB
+
         const newOrder = new Order({
             consumer_id: consumer._id,
-            consumer_address: defaultAddress, // Save full address object
+            consumer_address: defaultAddress, 
             orderDetail: {
                 orderTime: new Date().toISOString(),
-                expectedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days later
+                expectedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), 
                 deliveryStatus: "Processing",
-                orderedProducts: orderedProducts, // ✅ Merged products
-                orderAmount: session.amount_total / 100, // Convert cents to dollars
+                orderedProducts: orderedProducts, 
+                orderAmount: session.amount_total / 100,
             }
         });
 
         await newOrder.save();
 
-        // ✅ Clear User's Cart
+      
         consumer.basket = [];
         await consumer.save();
 
