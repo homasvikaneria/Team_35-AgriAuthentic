@@ -21,10 +21,25 @@ const parameterIcons = {
 };
 const formatParameterName = (name) => name.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
-const CertificationProgressBar = ({ certification, certificationPercent }) => {
+const CertificationProgressBar = ({ certification, certificationPercent, validUntil }) => {
+  const [animatedProgress, setAnimatedProgress] = useState(0);
   const progress = certificationPercent || 0;
   let statusText = "";
   let statusIcon = "🌱";
+  let daysRemaining = 0;
+  let statusClass = "text-green-600";
+
+  if (validUntil) {
+    const validDate = new Date(validUntil);
+    const today = new Date();
+    daysRemaining = Math.ceil((validDate - today) / (1000 * 60 * 60 * 24));
+    
+    if (daysRemaining < 30) {
+      statusClass = "text-red-600";
+    } else if (daysRemaining < 90) {
+      statusClass = "text-amber-600";
+    }
+  }
 
   if (certification.includes("Full")) {
     statusText = "Full Organic Certification";
@@ -35,6 +50,14 @@ const CertificationProgressBar = ({ certification, certificationPercent }) => {
   } else {
     statusText = "Basic Certification";
   }
+
+  useEffect(() => {
+    // Animate progress bar
+    const timer = setTimeout(() => {
+      setAnimatedProgress(progress);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [progress]);
 
   return (
     <div className="bg-white shadow-lg rounded-xl overflow-hidden border-l-4 border-green-500">
@@ -49,12 +72,12 @@ const CertificationProgressBar = ({ certification, certificationPercent }) => {
           <div
             className="h-6 rounded-full bg-gradient-to-r from-green-300 via-green-500 to-green-600 relative"
             style={{
-              width: `${progress}%`,
+              width: `${animatedProgress}%`,
               transition: "width 1s ease-in-out"
             }}
           >
             <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-white">
-              {progress >= 20 ? `${progress}% Complete` : ""}
+              {animatedProgress >= 20 ? `${animatedProgress}% Complete` : ""}
             </span>
           </div>
         </div>
@@ -83,12 +106,21 @@ const CertificationProgressBar = ({ certification, certificationPercent }) => {
         <div className="p-4 bg-green-50 rounded-lg border border-green-100">
           <div className="flex items-center">
             <span className="text-2xl mr-2">{statusIcon}</span>
-            <div>
+            <div className="flex-1">
               <p className="font-medium text-green-800">{statusText}</p>
               <p className="text-sm text-green-700 mt-1">
                 {progress < 100 ? "Continue implementing sustainable practices to achieve full certification." : "Congratulations! You've achieved full organic certification."}
               </p>
             </div>
+            {validUntil && (
+              <div className="ml-4 bg-white p-3 rounded-lg border border-green-100 text-center">
+                <p className="text-xs text-gray-600 mb-1">Valid until</p>
+                <p className="font-semibold text-green-800">{new Date(validUntil).toLocaleDateString()}</p>
+                <p className={`text-xs font-medium mt-1 ${statusClass}`}>
+                  {daysRemaining > 0 ? `${daysRemaining} days remaining` : "Expired"}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -190,10 +222,7 @@ const CertificationDetails = ({ reason, suggestions }) => {
   );
 };
 
-// The original AIRecommendations component is no longer needed as a standalone component
-// since we've integrated it into the popup in CertificationDetails
-
-const TimelineGraph = () => {
+const TimelineGraph = ({ onShowDetailedGraphs }) => {
   const [timelineView, setTimelineView] = useState("weekly");
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
@@ -308,8 +337,17 @@ const TimelineGraph = () => {
         </div>
       </div>
       <div className="h-80"><canvas ref={chartRef}></canvas></div>
-      <div className="mt-4 text-sm text-gray-500 text-center">
-        Toggle parameters visibility by clicking on their names in the legend below the chart
+      <div className="mt-6 flex justify-between items-center">
+        <div className="text-sm text-gray-500">
+          Toggle parameters visibility by clicking on their names in the legend
+        </div>
+        <button 
+          onClick={onShowDetailedGraphs}
+          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center"
+        >
+          <span className="mr-2">📊</span>
+          Show Detailed Graphs
+        </button>
       </div>
     </div>
   );
@@ -400,33 +438,65 @@ const Graph = ({ title, data, min, max }) => {
   );
 };
 
+const ApiUnavailable = ({ onRetry }) => {
+  return (
+    <div className="bg-white shadow-lg rounded-xl overflow-hidden p-8 text-center border-l-4 border-amber-500">
+      <div className="flex flex-col items-center">
+        <span className="text-5xl mb-4">📡</span>
+        <h3 className="text-xl font-semibold text-amber-700 mb-2">API Connection Unavailable</h3>
+        <p className="text-gray-600 mb-6">Unable to connect to the sensor data API. Check your connection or server status.</p>
+        <button 
+          onClick={onRetry}
+          className="bg-amber-500 text-white px-6 py-2 rounded-lg hover:bg-amber-600 transition-colors flex items-center"
+        >
+          <span className="mr-2">↻</span>
+          Retry Connection
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const Dashboard = () => {
   const [sensorData, setSensorData] = useState([]);
   const [certification, setCertification] = useState("");
   const [certificationPercent, setCertificationPercent] = useState(0);
+  const [validUntil, setValidUntil] = useState("");
   const [reason, setReason] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [apiAvailable, setApiAvailable] = useState(true);
+  const [showDetailedGraphs, setShowDetailedGraphs] = useState(false);
 
   const fetchData = async () => {
     try {
       setRefreshing(true);
       const response = await axios.get(API_URL);
+      
       setSensorData(response.data.sensor_history || []);
       setCertification(response.data.certification_status);
       setReason(response.data.certification_reason);
       setSuggestions(response.data.suggestions);
+      
+      // Set the valid until date if it exists in the API response
+      if (response.data.valid_until) {
+        setValidUntil(response.data.valid_until);
+      }
+      
       setCertificationPercent(response.data.certification_percent || (
         response.data.certification_status.includes("Full") ? 100 : 
         response.data.certification_status.includes("Intermediate") ? 70 : 40
       ));
+      
       setLoading(false);
+      setApiAvailable(true);
       setTimeout(() => setRefreshing(false), 500);
     } catch (error) {
       console.error("Error fetching data:", error);
       setLoading(false);
       setRefreshing(false);
+      setApiAvailable(false);
     }
   };
 
@@ -466,31 +536,52 @@ const Dashboard = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <div className="lg:col-span-2">
-            <CertificationProgressBar certification={certification} certificationPercent={certificationPercent} />
+            <CertificationProgressBar 
+              certification={certification} 
+              certificationPercent={certificationPercent}
+              validUntil={validUntil}
+            />
           </div>
           <div className="lg:col-span-1">
             <CertificationDetails reason={reason} suggestions={suggestions} />  
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {sensorData.length > 0 &&
-            Object.keys(standardRanges).map((key) => (
-              <Graph
-                key={key}
-                title={formatParameterName(key)}
-                data={sensorData.map((d) => d[key])}
-                min={standardRanges[key].min}
-                max={standardRanges[key].max}
-              />
-            ))}
-        </div>
+        {apiAvailable ? (
+          <>
+            <div className="grid grid-cols-1 gap-6 mb-8">
+              <TimelineGraph onShowDetailedGraphs={() => setShowDetailedGraphs(true)} />
+            </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
-          <div className="lg:col-span-3">
-            <TimelineGraph />
-          </div>
-        </div>
+            {showDetailedGraphs && sensorData.length > 0 && (
+              <>
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-xl font-semibold text-green-700">Detailed Parameter Graphs</h2>
+                  <button 
+                    onClick={() => setShowDetailedGraphs(false)}
+                    className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition flex items-center"
+                  >
+                    <span className="mr-2">▲</span>
+                    Hide Detailed Graphs
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                  {Object.keys(standardRanges).map((key) => (
+                    <Graph
+                      key={key}
+                      title={formatParameterName(key)}
+                      data={sensorData.map((d) => d[key])}
+                      min={standardRanges[key].min}
+                      max={standardRanges[key].max}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </>
+        ) : (
+          <ApiUnavailable onRetry={fetchData} />
+        )}
 
         <footer className="mt-12 text-center text-green-700 text-sm bg-green-100 p-3 rounded-lg">
           <p>Data refreshes automatically every 10 seconds • Last updated {new Date().toLocaleTimeString()}</p>

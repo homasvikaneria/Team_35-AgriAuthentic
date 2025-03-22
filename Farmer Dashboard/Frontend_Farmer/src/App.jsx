@@ -16,13 +16,23 @@ import MarketPrices from './Pages/FarmerMarketplace/MarketPrices'
 import HomePage from './Pages/HomePage'
 import FarmerProfileSetup from './Components/ProfileSetup'
 import FarmingNewsDashboard from './Pages/FarmerMarketplace/FarmingNews'
+import ChatModal from './Components/AiChatBot/ChatModel'
+import FloatingChatButton from './Components/AiChatBot/FloatingChatButton'
 
 function App() {
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
+  const handleChatButtonClick = () => {
+    setIsChatOpen(!isChatOpen);
+  };
+
+  const handleCloseChat = () => {
+    setIsChatOpen(false);
+  };
   return (
     <>
       <BrowserRouter>
-        <Navbar />
+        {location.pathname !== '/' && <Navbar />}
         <main>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -41,9 +51,15 @@ function App() {
             </Route>
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path='/profile-setup' element={<FarmerProfileSetup />}/>
+            <Route path='/profile-setup' element={<FarmerProfileSetup />} />
           </Routes>
         </main>
+        {location.pathname !== '/' &&
+          <div className="app">
+            <FloatingChatButton onClick={handleChatButtonClick} />
+            <ChatModal isOpen={isChatOpen} onClose={handleCloseChat} />
+          </div>}
+
       </BrowserRouter>
     </>
   )
