@@ -3,7 +3,7 @@ import {
   createVerification,
   getVerificationById,
   deleteVerification
-} from '../controllers/verifyController.js';
+} from '../Controllers/VerifiicationController';
 
 const router = express.Router();
 

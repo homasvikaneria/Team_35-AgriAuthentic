@@ -4,7 +4,7 @@ import {
   getProductById,
   getVerificationDetails,
   createProduct,
-  getProductsByFarmerId // Import the new controller method
+  getProductsByFarmerId 
 } from '../Controllers/productController';
 
 const router = express.Router();
