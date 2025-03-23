@@ -98,7 +98,84 @@
       "max": "Max", 
       "optimalRange": "Optimal Range" 
     }
-  
+  ,
+  "title": "AI Market Price Prediction",
+  "selectCrop": "Select Your Crop",
+  "selectMarket": "Select Market",
+  "selectCropPlaceholder": "-- Select Crop --",
+  "selectMarketPlaceholder": "-- Select Market --",
+  "predictionsFor": "Predictions for",
+  "predictionFor": "Prediction for",
+  "market": "Market",
+  "perQuintal": "per quintal",
+  "predictedIn30Days": "Predicted in 30 days",
+  "bestTimeToSell": "Best time to sell",
+  "marketInsight": "Market Insight",
+  "noSelectionMessage": "Please select either a crop OR a market to see price predictions",
+  "selectCropOrMarket": "Select either a specific crop OR a market to see predictions",
+  "now": "Now",
+
+  "header": {
+    "title": "FarmFeed",
+    "date": "{date}",
+    "searchPlaceholder": "Search news..."
+  },
+  "filters": {
+    "all": "All News",
+    "climate": "Climate & Weather",
+    "trade": "Trade & Policy",
+    "technology": "Agricultural Tech"
+  },
+  "news": {
+    "todaysHighlight": "Today's Highlight",
+    "latestNews": "Latest Farming News",
+    "noNewsFound": "No news found",
+    "resetFilters": "Reset Filters",
+    "readMore": "Read More",
+    "showLess": "Show Less",
+    "visitSource": "Visit Source",
+    "keyDetails": "Key Details",
+    "source": "Source",
+    "author": "Author",
+    "published": "Published",
+    "category": "Category",
+    "generalAgriculture": "General Agriculture"
+  },
+  "footer": {
+    "title": "FarmFeed",
+    "tagline": "Your trusted source for agricultural news",
+    "copyright": "© {year} FarmFeed. All rights reserved.",
+    "updates": "Updates every 30 minutes with the latest farming news"
+  },
+  "marketplace": {
+    "farmersDetails": "Farmer's Details",
+    "marketPrices": "Market Prices",
+    "news": "News"
+  },
+  "farmerDetails": {
+    "header": {
+      "title": "Farmer's Marketplace",
+      "subtitle": "Connect with farmers & support sustainable agriculture"
+    },
+    "loading": "Loading marketplace data...",
+    "noFarmers": {
+      "title": "No Farmers Available",
+      "message": "We're expanding our network. Check back soon."
+    },
+    "card": {
+      "experience": "Experience",
+      "years": "years",
+      "tags": {
+        "organic": "Organic",
+        "sustainable": "Sustainable",
+        "local": "Local"
+      },
+      "buttons": {
+        "details": "Details",
+        "contact": "Contact"
+      }
+    }
+  }
 
 
   

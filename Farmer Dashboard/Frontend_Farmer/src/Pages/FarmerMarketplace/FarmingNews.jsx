@@ -1,29 +1,26 @@
+// Team_35-AgriAuthentic/Farmer Dashboard/Frontend_Farmer/src/Pages/FarmerMarketplace/FarmingNews.jsx
+
 import React, { useEffect, useState } from 'react';
 import { Calendar, Clock, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import axios from 'axios';
-import { ScaleLoader } from "react-spinners"
+import { ScaleLoader } from "react-spinners";
+import { useTranslation } from 'react-i18next';
 
 const FarmingNewsApp = () => {
-  // Real state for news data
+  const { t, i18n } = useTranslation(); // Use the translation hook
   const [newsData, setNewsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  // State for expanded cards
   const [expandedCards, setExpandedCards] = useState({});
-  // State for filters
   const [activeFilter, setActiveFilter] = useState('all');
-  // State for search
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Fetch data from API
+  // Fetch data from API (same as before)
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         const response = await axios.get('http://localhost:4009/api/news/agriculture-news');
-        
-        // If API fails to return data, generate random mock data
         if (!response.data || response.data.length === 0) {
           setNewsData(generateRandomNews(12));
         } else {
@@ -33,21 +30,16 @@ const FarmingNewsApp = () => {
       } catch (err) {
         console.error("Failed to fetch news:", err);
         setError("Couldn't connect to news service. Showing sample data instead.");
-        // Generate random news as fallback
         setNewsData(generateRandomNews(12));
         setLoading(false);
       }
     };
 
     fetchData();
-    
-    // Refresh data every 30 minutes
     const refreshInterval = setInterval(fetchData, 30 * 60 * 1000);
-    
     return () => clearInterval(refreshInterval);
   }, []);
 
-  // Generate random news for fallback
   const generateRandomNews = (count) => {
     const sources = [
       { id: 'farming-today', name: 'Farming Today' },
@@ -134,7 +126,7 @@ const FarmingNewsApp = () => {
     );
   };
 
-  // Toggle expand/collapse for a specific news card
+  // Toggle expand/collapse (same as before)
   const toggleExpand = (id) => {
     setExpandedCards(prev => ({
       ...prev,
@@ -190,38 +182,35 @@ const FarmingNewsApp = () => {
   const filteredNews = getFilteredNews();
 
   // Format current date for header
-  const currentDate = new Date().toLocaleDateString('en-US', {
+  const currentDate = new Date().toLocaleDateString(i18n.language, {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
 
-  // Component for single news card
+  // NewsCard component (same as before, but replace hardcoded text with translations)
   const NewsCard = ({ news, expanded, toggleExpand }) => {
-    // Format the publish date
     const formatDate = (dateString) => {
       try {
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', { 
+        return date.toLocaleDateString(i18n.language, { 
           year: 'numeric', 
           month: 'short', 
           day: 'numeric' 
         });
       } catch (e) {
-        return "Unknown date";
+        return t('news.unknownDate');
       }
     };
-  
-    // Truncate the description for compact view
+
     const truncateText = (text, maxLength) => {
       if (!text) return '';
       return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
     };
-  
-    // Generate placeholder if no image available
+
     const imageSrc = news.urlToImage || `/api/placeholder/${300 + Math.floor(Math.random() * 200)}/${200 + Math.floor(Math.random() * 100)}`;
-  
+
     return (
       <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg border border-gray-100">
         <div className="relative">
@@ -263,12 +252,12 @@ const FarmingNewsApp = () => {
               {expanded ? (
                 <>
                   <ChevronUp size={16} className="mr-1" />
-                  Show Less
+                  {t('news.showLess')}
                 </>
               ) : (
                 <>
                   <ChevronDown size={16} className="mr-1" />
-                  Read More
+                  {t('news.readMore')}
                 </>
               )}
             </button>
@@ -279,7 +268,7 @@ const FarmingNewsApp = () => {
               rel="noopener noreferrer"
               className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
             >
-              Visit Source <ExternalLink size={14} className="ml-1" />
+              {t('news.visitSource')} <ExternalLink size={14} className="ml-1" />
             </a>
           </div>
         </div>
@@ -287,25 +276,25 @@ const FarmingNewsApp = () => {
         {expanded && (
           <div className="px-4 pb-4">
             <div className="border-t border-gray-200 pt-4">
-              <h4 className="font-semibold text-gray-800 mb-2">Key Details</h4>
+              <h4 className="font-semibold text-gray-800 mb-2">{t('news.keyDetails')}</h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                 <div className="bg-gray-50 p-2 rounded">
-                  <span className="font-medium">Source:</span> {news.source?.name || "Unknown source"}
+                  <span className="font-medium">{t('news.source')}:</span> {news.source?.name || t('news.unknownSource')}
                 </div>
                 {news.author && (
                   <div className="bg-gray-50 p-2 rounded">
-                    <span className="font-medium">Author:</span> {news.author}
+                    <span className="font-medium">{t('news.author')}:</span> {news.author}
                   </div>
                 )}
                 <div className="bg-gray-50 p-2 rounded">
-                  <span className="font-medium">Published:</span> {formatDate(news.publishedAt)}
+                  <span className="font-medium">{t('news.published')}:</span> {formatDate(news.publishedAt)}
                 </div>
                 <div className="bg-gray-50 p-2 rounded">
-                  <span className="font-medium">Category:</span> {
-                    activeFilter === 'climate' ? 'Climate & Weather' :
-                    activeFilter === 'trade' ? 'Trade & Policy' :
-                    activeFilter === 'technology' ? 'Agricultural Tech' :
-                    'General Agriculture'
+                  <span className="font-medium">{t('news.category')}:</span> {
+                    activeFilter === 'climate' ? t('filters.climate') :
+                    activeFilter === 'trade' ? t('filters.trade') :
+                    activeFilter === 'technology' ? t('filters.technology') :
+                    t('news.generalAgriculture')
                   }
                 </div>
               </div>
@@ -323,13 +312,13 @@ const FarmingNewsApp = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold">FarmFeed</h1>
-              <p className="text-green-100">{currentDate}</p>
+              <h1 className="text-3xl font-bold">{t('header.title')}</h1>
+              <p className="text-green-100">{t('header.date', { date: currentDate })}</p>
             </div>
             <div className="mt-4 md:mt-0 relative">
               <input
                 type="text"
-                placeholder="Search news..."
+                placeholder={t('header.searchPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="px-4 py-2 rounded-full w-full md:w-64 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -342,51 +331,24 @@ const FarmingNewsApp = () => {
       {/* Filter Categories */}
       <div className="container mx-auto px-4 py-6">
         <div className="flex flex-wrap justify-center gap-2 mb-8">
-          <button
-            onClick={() => setActiveFilter('all')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              activeFilter === 'all'
-                ? 'bg-green-600 text-white shadow-md'
-                : 'bg-white text-gray-700 hover:bg-gray-100'
-            }`}
-          >
-            All News
-          </button>
-          <button
-            onClick={() => setActiveFilter('climate')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              activeFilter === 'climate'
-                ? 'bg-green-600 text-white shadow-md'
-                : 'bg-white text-gray-700 hover:bg-gray-100'
-            }`}
-          >
-            Climate & Weather
-          </button>
-          <button
-            onClick={() => setActiveFilter('trade')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              activeFilter === 'trade'
-                ? 'bg-green-600 text-white shadow-md'
-                : 'bg-white text-gray-700 hover:bg-gray-100'
-            }`}
-          >
-            Trade & Policy
-          </button>
-          <button
-            onClick={() => setActiveFilter('technology')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              activeFilter === 'technology'
-                ? 'bg-green-600 text-white shadow-md'
-                : 'bg-white text-gray-700 hover:bg-gray-100'
-            }`}
-          >
-            Agricultural Tech
-          </button>
+          {['all', 'climate', 'trade', 'technology'].map((filter) => (
+            <button
+              key={filter}
+              onClick={() => setActiveFilter(filter)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                activeFilter === filter
+                  ? 'bg-green-600 text-white shadow-md'
+                  : 'bg-white text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              {t(`filters.${filter}`)}
+            </button>
+          ))}
         </div>
 
         {/* Loading state */}
         {loading && (
-          <div className=' flex items-center justify-center'>
+          <div className='flex items-center justify-center'>
             <ScaleLoader color='lightgreen'/>
           </div>
         )}
@@ -403,7 +365,7 @@ const FarmingNewsApp = () => {
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
               <span className="w-2 h-6 bg-green-600 inline-block mr-2"></span>
-              Today's Highlight
+              {t('news.todaysHighlight')}
             </h2>
             <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-100">
               <div className="md:flex">
@@ -417,11 +379,11 @@ const FarmingNewsApp = () => {
                 <div className="md:w-1/2 p-6">
                   <div className="flex items-center mb-2">
                     <span className="text-xs font-medium text-green-600 bg-green-100 rounded-full px-3 py-1">
-                      {filteredNews[0].source?.name || "Agricultural News"}
+                      {filteredNews[0].source?.name || t('news.unknownSource')}
                     </span>
                     <span className="text-gray-500 text-sm ml-2 flex items-center">
                       <Clock size={14} className="mr-1" />
-                      {new Date(filteredNews[0].publishedAt).toLocaleDateString()}
+                      {new Date(filteredNews[0].publishedAt).toLocaleDateString(i18n.language)}
                     </span>
                   </div>
                   <h3 className="text-2xl font-bold text-gray-800 mb-4">{filteredNews[0].title}</h3>
@@ -436,12 +398,12 @@ const FarmingNewsApp = () => {
                       {expandedCards[`featured-${filteredNews[0].url}`] ? (
                         <>
                           <ChevronUp size={16} className="mr-1" />
-                          Show Less
+                          {t('news.showLess')}
                         </>
                       ) : (
                         <>
                           <ChevronDown size={16} className="mr-1" />
-                          Read More
+                          {t('news.readMore')}
                         </>
                       )}
                     </button>
@@ -451,14 +413,14 @@ const FarmingNewsApp = () => {
                       rel="noopener noreferrer"
                       className="bg-green-600 text-white px-4 py-2 rounded-md font-medium hover:bg-green-700 transition-colors flex items-center"
                     >
-                      Read Full Article <ExternalLink size={14} className="ml-2" />
+                      {t('news.readFullArticle')} <ExternalLink size={14} className="ml-2" />
                     </a>
                   </div>
                   
                   {expandedCards[`featured-${filteredNews[0].url}`] && (
                     <div className="mt-4 pt-4 border-t border-gray-200">
                       <p className="text-gray-700">
-                        {filteredNews[0].content || "Full content not available. Visit the publisher's website for the complete story."}
+                        {filteredNews[0].content || t('news.fullContentNotAvailable')}
                       </p>
                     </div>
                   )}
@@ -472,19 +434,20 @@ const FarmingNewsApp = () => {
         <div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
             <span className="w-2 h-6 bg-green-600 inline-block mr-2"></span>
-            Latest Farming News
+            {t('news.latestNews')}
             {activeFilter !== 'all' && !loading && (
               <span className="ml-2 text-sm font-normal text-gray-500">
-                Filtered by {activeFilter === 'climate' ? 'Climate & Weather' : 
-                  activeFilter === 'trade' ? 'Trade & Policy' : 'Agricultural Tech'}
+                {t('news.filteredBy', { 
+                  filter: t(`filters.${activeFilter}`)
+                })}
               </span>
             )}
           </h2>
           
           {!loading && filteredNews.length === 0 ? (
             <div className="bg-white p-8 rounded-lg shadow text-center">
-              <h3 className="text-xl font-medium text-gray-800 mb-2">No news found</h3>
-              <p className="text-gray-600">Try adjusting your search or filters to find relevant farming news.</p>
+              <h3 className="text-xl font-medium text-gray-800 mb-2">{t('news.noNewsFound')}</h3>
+              <p className="text-gray-600">{t('news.tryAdjustingFilters')}</p>
               <button 
                 onClick={() => {
                   setActiveFilter('all');
@@ -492,7 +455,7 @@ const FarmingNewsApp = () => {
                 }}
                 className="mt-4 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
               >
-                Reset Filters
+                {t('news.resetFilters')}
               </button>
             </div>
           ) : (
@@ -517,12 +480,12 @@ const FarmingNewsApp = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <h2 className="text-xl font-bold">FarmFeed</h2>
-              <p className="text-green-200">Your trusted source for agricultural news</p>
+              <h2 className="text-xl font-bold">{t('footer.title')}</h2>
+              <p className="text-green-200">{t('footer.tagline')}</p>
             </div>
             <div className="text-center md:text-right">
-              <p>© {new Date().getFullYear()} FarmFeed. All rights reserved.</p>
-              <p className="text-green-200 text-sm mt-1">Updates every 30 minutes with the latest farming news</p>
+              <p>{t('footer.copyright', { year: new Date().getFullYear() })}</p>
+              <p className="text-green-200 text-sm mt-1">{t('footer.updates')}</p>
             </div>
           </div>
         </div>

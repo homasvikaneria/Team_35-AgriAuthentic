@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { PhoneCall, Info, MapPin, User, Crop, Clock, Award } from 'lucide-react';
-import axios from 'axios';
+import React from 'react';
+import { PhoneCall, Info, MapPin, User, Crop, Clock, Award, Package, ShoppingBag } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // Import the translation hook
 
 function Marketplace() {
+  const { t } = useTranslation(); // Use the translation hook
 
   return (
     <>
-
       <div className="flex items-center justify-between mx-5">
         <nav className="bg-gray-100 h-13 flex justify-center items-center mx-2 space-x-4 p-4 rounded-md shadow-md">
           <NavLink
@@ -18,7 +18,7 @@ function Marketplace() {
             }
           >
             {({ isActive }) => <Package size={20} className={isActive ? "text-green-600" : "text-gray-700"} />}
-            Famrmer's details
+            {t('marketplace.farmersDetails')} {/* Translated text */}
           </NavLink>
 
           <NavLink
@@ -29,8 +29,9 @@ function Marketplace() {
             }
           >
             {({ isActive }) => <ShoppingBag size={20} className={isActive ? "text-green-600" : "text-gray-700"} />}
-            Market Prices
+            {t('marketplace.marketPrices')} {/* Translated text */}
           </NavLink>
+
           <NavLink
             to="/marketplace/news"
             className={({ isActive }) =>
@@ -39,7 +40,7 @@ function Marketplace() {
             }
           >
             {({ isActive }) => <ShoppingBag size={20} className={isActive ? "text-green-600" : "text-gray-700"} />}
-            News
+            {t('marketplace.news')} {/* Translated text */}
           </NavLink>
         </nav>
       </div>
@@ -50,4 +51,4 @@ function Marketplace() {
   );
 }
 
-export default Marketplace; 
+export default Marketplace;

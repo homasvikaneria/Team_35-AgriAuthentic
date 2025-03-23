@@ -1,11 +1,12 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import { Auth0Provider } from "@auth0/auth0-react";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App.jsx';
+import { Auth0Provider } from '@auth0/auth0-react';
+import { BrowserRouter } from 'react-router-dom'; // Import BrowserRouter
 
-const domain = "dev-z8esj8egvt4kiktw.us.auth0.com"
-const client_id = "yWb8BJdsDuYfDdG3UKf0xgvMvhDB6UKl"
+const domain = 'dev-z8esj8egvt4kiktw.us.auth0.com';
+const client_id = 'yWb8BJdsDuYfDdG3UKf0xgvMvhDB6UKl';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -16,7 +17,9 @@ createRoot(document.getElementById('root')).render(
         redirect_uri: window.location.origin,
       }}
     >
-      <App />
+      <BrowserRouter> 
+        <App />
+      </BrowserRouter>
     </Auth0Provider>
   </StrictMode>,
-)
+);

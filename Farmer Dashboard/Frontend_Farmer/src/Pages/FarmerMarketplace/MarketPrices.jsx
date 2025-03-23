@@ -1,8 +1,16 @@
+
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, TrendingDown, Clock, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Marketprice = () => {
-  // Sample data provided
+  const { t } = useTranslation(); // Use the translation hook
+  const [selectedCrop, setSelectedCrop] = useState("");
+  const [selectedMarket, setSelectedMarket] = useState("");
+  const [predictions, setPredictions] = useState([]);
+  const [marketInsight, setMarketInsight] = useState("");
+
+  // Sample crop data (same as before)
   const cropData = [
     {
         "_id": "Lentil (Masur)(Whole)",
@@ -1172,12 +1180,6 @@ const Marketprice = () => {
 
   // Get unique markets from the data
   const uniqueMarkets = [...new Set(cropData.map(item => item.latestMarket))];
-  
-  // States for selected crop and market
-  const [selectedCrop, setSelectedCrop] = useState("");
-  const [selectedMarket, setSelectedMarket] = useState("");
-  const [predictions, setPredictions] = useState([]);
-  const [marketInsight, setMarketInsight] = useState("");
 
   // Generate predictions based on selection
   useEffect(() => {
@@ -1250,63 +1252,55 @@ const Marketprice = () => {
   const handleCropChange = (e) => {
     const crop = e.target.value;
     setSelectedCrop(crop);
-    
-    // If crop is selected, clear market selection to avoid confusion
-    if (crop) {
-      setSelectedMarket("");
-    }
+    if (crop) setSelectedMarket("");
   };
 
   // Handle market selection
   const handleMarketChange = (e) => {
     const market = e.target.value;
     setSelectedMarket(market);
-    
-    // If market is selected, clear crop selection to avoid confusion
-    if (market) {
-      setSelectedCrop("");
-    }
+    if (market) setSelectedCrop("");
   };
 
   // Format date to display only day and month
   const formatDate = (dateString) => {
-    if (dateString === "Now") return "Now";
+    if (dateString === "Now") return t('now'); // Translated "Now"
     const date = new Date(dateString);
-    return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}`;
+    return date.toLocaleDateString(i18n.language, { day: 'numeric', month: 'short' });
   };
 
   return (
     <div className="bg-gray-50 min-h-screen p-4">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">AI Market Price Prediction</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-6">{t('title')}</h1>
         
         {/* Selection Form */}
         <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
-          <p className="text-sm text-gray-600 mb-4">Select either a specific crop OR a market to see predictions</p>
+          <p className="text-sm text-gray-600 mb-4">{t('selectCropOrMarket')}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Select Your Crop</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('selectCrop')}</label>
               <select 
                 className="w-full p-2 border border-gray-300 rounded-md"
                 value={selectedCrop}
                 onChange={handleCropChange}
                 disabled={selectedMarket !== ""}
               >
-                <option value="">-- Select Crop --</option>
+                <option value="">{t('selectCropPlaceholder')}</option>
                 {cropData.map(crop => (
                   <option key={crop._id} value={crop._id}>{crop._id}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Select Market</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('selectMarket')}</label>
               <select 
                 className="w-full p-2 border border-gray-300 rounded-md"
                 value={selectedMarket}
                 onChange={handleMarketChange}
                 disabled={selectedCrop !== ""}
               >
-                <option value="">-- Select Market --</option>
+                <option value="">{t('selectMarketPlaceholder')}</option>
                 {uniqueMarkets.map(market => (
                   <option key={market} value={market}>{market}</option>
                 ))}
@@ -1319,7 +1313,7 @@ const Marketprice = () => {
         {predictions.length > 0 && (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold text-gray-700">
-              {selectedMarket ? `Predictions for ${selectedMarket} Market` : `Prediction for ${selectedCrop}`}
+              {selectedMarket ? `${t('predictionsFor')} ${selectedMarket} ${t('market')}` : `${t('predictionFor')} ${selectedCrop}`}
             </h2>
             
             {predictions.map((prediction, index) => (
@@ -1327,7 +1321,7 @@ const Marketprice = () => {
                 <div className="flex justify-between items-start">
                   <div>
                     <h2 className="text-lg font-semibold text-gray-800">{prediction.name}</h2>
-                    {selectedCrop && <p className="text-xs text-gray-500">Market: {prediction.market}</p>}
+                    {selectedCrop && <p className="text-xs text-gray-500">{t('market')}: {prediction.market}</p>}
                   </div>
                   <div className={`flex items-center ${prediction.isIncrease ? 'text-green-500' : 'text-red-500'}`}>
                     {prediction.isIncrease ? <TrendingUp size={20} /> : <TrendingDown size={20} />}
@@ -1336,14 +1330,14 @@ const Marketprice = () => {
                 </div>
                 
                 <div className="mt-2">
-                  <div className="text-2xl font-bold">₹{prediction.currentPrice.toLocaleString()} <span className="text-sm font-normal text-gray-500">per quintal</span></div>
-                  <div className="text-sm text-gray-600 mt-1">Predicted in 30 days: ₹{prediction.predictedPrice.toLocaleString()}</div>
+                  <div className="text-2xl font-bold">₹{prediction.currentPrice.toLocaleString()} <span className="text-sm font-normal text-gray-500">{t('perQuintal')}</span></div>
+                  <div className="text-sm text-gray-600 mt-1">{t('predictedIn30Days')}: ₹{prediction.predictedPrice.toLocaleString()}</div>
                 </div>
                 
                 <div className="flex justify-between items-center mt-3">
                   <div className="text-blue-600 text-sm flex items-center">
                     <Clock size={16} className="mr-1" />
-                    Best time to sell
+                    {t('bestTimeToSell')}
                   </div>
                   <div className={`px-3 py-1 rounded-full text-sm ${
                     prediction.bestTimeToSell === "Now" ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
@@ -1358,7 +1352,7 @@ const Marketprice = () => {
             <div className="bg-blue-50 p-4 rounded-lg flex items-start">
               <AlertCircle size={24} className="text-blue-600 mr-3 mt-1" />
               <div>
-                <h3 className="font-semibold text-blue-800">Market Insight:</h3>
+                <h3 className="font-semibold text-blue-800">{t('marketInsight')}:</h3>
                 <p className="text-blue-700">{marketInsight}</p>
               </div>
             </div>
@@ -1368,7 +1362,7 @@ const Marketprice = () => {
         {/* No selection message */}
         {predictions.length === 0 && (
           <div className="bg-gray-100 p-6 rounded-lg text-center">
-            <p className="text-gray-600">Please select either a crop OR a market to see price predictions</p>
+            <p className="text-gray-600">{t('noSelectionMessage')}</p>
           </div>
         )}
       </div>
